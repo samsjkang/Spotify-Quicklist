@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import {
   Button,
   Container,
@@ -88,12 +89,8 @@ class DesktopContainer extends Component {
             >
               <Container>
                 <Menu.Item position='right'>
-                  <Button as='a' inverted={!fixed}>
-                    <a
-                      href = 'http://localhost:5000/login'
-                    >
+                  <Button as='a' href='http://localhost:5000/login' inverted={!fixed}>
                       Login to Spotify 
-                    </a>
                   </Button>
                 </Menu.Item>
               </Container>
