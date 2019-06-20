@@ -90,7 +90,7 @@ class DesktopContainer extends Component {
               <Container>
                 <Menu.Item position='right'>
                   <Button as='a' href='http://localhost:5000/login' inverted={!fixed}>
-                      Login to Spotify 
+                      Get Started 
                   </Button>
                 </Menu.Item>
               </Container>

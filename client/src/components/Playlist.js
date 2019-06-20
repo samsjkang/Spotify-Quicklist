@@ -18,8 +18,9 @@ const getWidth = () => {
   return isSSR ? Responsive.onlyTablet.minWidth : window.innerWidth
 }
 
-const LoggedInHeading = ({ mobile }) => (
+const PlaylistHeading = ({ mobile }) => (
   <Container text>
+    <Link to='/'><Button>Home</Button></Link>
     <Header
       as='h1'
       inverted
@@ -27,13 +28,13 @@ const LoggedInHeading = ({ mobile }) => (
         fontSize: mobile ? '2em' : '4em',
         fontWeight: 'normal',
         marginBottom: 0,
-        marginTop: mobile ? '1.5em' : '3em',
+        marginTop: mobile ? '1.5em' : '1em',
       }}
     />
   </Container>
 )
 
-LoggedInHeading.propTypes = {
+PlaylistHeading.propTypes = {
   mobile: PropTypes.bool,
 }
 
@@ -48,13 +49,14 @@ class DesktopContainer extends Component {
         <Visibility
           once={false}
         >
+          
           <Segment
             inverted
             textAlign='center'
             style={{ minHeight: 700, padding: '1em 0em'}}
             vertical
           >
-            <LoggedInHeading/>
+            <PlaylistHeading/>
             {children}
           </Segment>
         </Visibility>
@@ -84,7 +86,7 @@ class MobileContainer extends Component {
             style={{ minHeight: 350, padding: '1em 0em' }}
             vertical
           >
-            <LoggedInHeading mobile />
+            <PlaylistHeading mobile />
             {children}
           </Segment>
       </Responsive>
@@ -107,7 +109,7 @@ ResponsiveContainer.propTypes = {
   children: PropTypes.node,
 }
 
-class LoggedIn extends Component {
+class Playlist extends Component {
   constructor() {
     super();
     this.state = {
@@ -171,28 +173,31 @@ class LoggedIn extends Component {
 
   render() {
     let parsed = queryString.parse(window.location.search);
-    let accessToken = parsed.access_token;
-    let playlistRender = 
+    let selectedPlaylist = parsed.selected;
+    let myPlaylist = 
       this.state.user &&
       this.state.playlists
-        ? this.state.playlists.map(function(playlist){
-          return <Link to={`/playlist/?selected=${playlist.name}&access_token=${accessToken}`}>
-            <Button style={{marginBottom:'1rem'}}>{playlist.name}</Button>
-          </Link>;
+        ? this.state.playlists.filter(function(playlist){
+          return playlist.name === selectedPlaylist;
       }) : []
-    
+
+    let mySongs = 
+      myPlaylist[0] &&
+      myPlaylist[0].songs
+        ? myPlaylist[0].songs.map(function(song){
+          return <Button style={{marginBottom:'1rem'}}>{song.name}</Button>
+      }) : []
+
     return (
       <ResponsiveContainer>
       <div className="App">
         {this.state.user && this.state.playlists ?
         <Container text>
           <Segment.Group style={{textAlign: 'center'}}>
-            <h1>{this.state.user.name}</h1>
-            <p>Select the playlist you want to edit or create a new one</p>
-            {playlistRender}
-            <Button style={{marginBottom:'1rem'}}>Create new playlist</Button>
+            <h1>{selectedPlaylist}</h1>
+            {mySongs}
           </Segment.Group>
-        </Container> : <p>Loading</p>
+        </Container> : <p textAlign='center'>Loading</p>
         }
       </div>
       </ResponsiveContainer>
@@ -200,4 +205,4 @@ class LoggedIn extends Component {
   }
 }
 
-export default LoggedIn
+export default Playlist

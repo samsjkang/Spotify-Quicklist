@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter, Route } from 'react-router-dom'
 import Home from './components/Home.js';
 import LoggedIn from './components/LoggedIn'
+import Playlist from './components/Playlist'
 import * as serviceWorker from './serviceWorker';
 
 class App extends React.Component {
@@ -11,6 +12,7 @@ class App extends React.Component {
       <BrowserRouter>
         <Route path={'/'} component={Home} exact />
         <Route path={'/loggedin'} component={LoggedIn}/> 
+        <Route path={'/playlist'} component={Playlist}/> 
       </BrowserRouter>  
     )
   }
