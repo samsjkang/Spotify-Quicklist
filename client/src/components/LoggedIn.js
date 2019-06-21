@@ -188,9 +188,9 @@ class LoggedIn extends Component {
         <Container text>
           <Segment.Group style={{textAlign: 'center'}}>
             <h1>{this.state.user.name}</h1>
-            <p>Select the playlist you want to edit or create a new one</p>
+            <p>Select the playlist you want to edit</p>
             {playlistRender}
-            <Button style={{marginBottom:'1rem'}}>Create new playlist</Button>
+            {/* <Button style={{marginBottom:'1rem'}}>Create new playlist</Button> */}
           </Segment.Group>
         </Container> : <p>Loading</p>
         }

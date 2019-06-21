@@ -5,6 +5,7 @@ import queryString from 'query-string';
 import {
   Button,
   Container,
+  Form,
   Header,
   Responsive,
   Segment,
@@ -28,7 +29,7 @@ const PlaylistHeading = ({ mobile }) => (
         fontSize: mobile ? '2em' : '4em',
         fontWeight: 'normal',
         marginBottom: 0,
-        marginTop: mobile ? '1.5em' : '1em',
+        marginTop: mobile ? '1em' : '0.5em',
       }}
     />
   </Container>
@@ -164,7 +165,8 @@ class Playlist extends Component {
         return {
           name: item.name,
           imageUrl: item.images[0].url, 
-          songs: item.trackDatas
+          songs: item.trackDatas,
+          id: item.id
         }
     })
     }))
@@ -194,10 +196,19 @@ class Playlist extends Component {
         {this.state.user && this.state.playlists ?
         <Container text>
           <Segment.Group style={{textAlign: 'center'}}>
+            <Form size='large'>
+              <Segment inverted stacked>
+                <Form.Input fluid placeholder='Song Title'/>
+                <Button color='green' fluid size='large'>
+                  Add Song
+                </Button>
+              </Segment>
+            </Form>
             <h1>{selectedPlaylist}</h1>
+            <h1>id: {myPlaylist[0].id}</h1>
             {mySongs}
           </Segment.Group>
-        </Container> : <p textAlign='center'>Loading</p>
+        </Container> : <p>Loading</p>
         }
       </div>
       </ResponsiveContainer>

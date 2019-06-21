@@ -40,7 +40,7 @@ const HomepageHeading = ({ mobile }) => (
     />
     <Header
       as='h2'
-      content='Make playlists in seconds!'
+      content='Quick Playlist Editor'
       inverted
       style={{
         fontSize: mobile ? '1.5em' : '1.7em',
@@ -195,7 +195,7 @@ const Home = () => (
               Search and Click
             </Header>
             <p style={{ color: '#ffffff', fontSize: '1.33em' }}>
-              Before, you had to search and add each song manually and separately to your playlist. 
+              Adding multiple songs to your playlist can get really tedious. 
               With Spotify Quicklist, you can just search and click to add songs consecutively.
             </p>
           </Grid.Column>
@@ -203,10 +203,10 @@ const Home = () => (
         <Grid.Row>
           <Grid.Column floated='right' width={8}>
           <Header as='h3' style={{ color: '#ffffff', fontSize: '2em' }}>
-              Drag and Click
+              Click and Delete
             </Header>
             <p style={{ fontSize: '1.33em' }}>
-              Drag songs to order them how you want, and click delete to remove songs. So easy!
+              Easily remove multiple songs with the tap of your mouse.
             </p>
           </Grid.Column>
         </Grid.Row>
