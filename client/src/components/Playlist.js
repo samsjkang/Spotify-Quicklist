@@ -11,6 +11,7 @@ import {
   Segment,
   Visibility,
 } from 'semantic-ui-react'
+import Searchbar from './Searchbar'
 import './App.css';
 
 const getWidth = () => {
@@ -54,7 +55,7 @@ class DesktopContainer extends Component {
           <Segment
             inverted
             textAlign='center'
-            style={{ minHeight: 700, padding: '1em 0em'}}
+            style={{ minHeight: 725, padding: '1em 0em'}}
             vertical
           >
             <PlaylistHeading/>
@@ -114,8 +115,6 @@ class Playlist extends Component {
   constructor() {
     super();
     this.state = {
-      serverData: {},
-      filterString: '',
     }
   }
 
@@ -176,6 +175,7 @@ class Playlist extends Component {
   render() {
     let parsed = queryString.parse(window.location.search);
     let selectedPlaylist = parsed.selected;
+    let accessToken = parsed.access_token;
     let myPlaylist = 
       this.state.user &&
       this.state.playlists
@@ -187,7 +187,7 @@ class Playlist extends Component {
       myPlaylist[0] &&
       myPlaylist[0].songs
         ? myPlaylist[0].songs.map(function(song){
-          return <Button style={{marginBottom:'1rem'}}>{song.name}</Button>
+          return <Button key={`${song.name}`} style={{marginBottom:'1rem'}}>{song.name}</Button>
       }) : []
 
     return (
@@ -197,8 +197,8 @@ class Playlist extends Component {
         <Container text>
           <Segment.Group style={{textAlign: 'center'}}>
             <Form size='large'>
+              <Searchbar access_token={accessToken}/>
               <Segment inverted stacked>
-                <Form.Input fluid placeholder='Song Title'/>
                 <Button color='green' fluid size='large'>
                   Add Song
                 </Button>

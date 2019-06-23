@@ -9,7 +9,7 @@ let redirect_uri =
   process.env.REDIRECT_URI || 
   'http://localhost:5000/callback'
 
-app.get('/login', function(req, res) {
+app.get('/login', function(req, res) { // oAuth Spotify request
   res.redirect('https://accounts.spotify.com/authorize?' +
     querystring.stringify({
       response_type: 'code',
@@ -19,7 +19,7 @@ app.get('/login', function(req, res) {
     }))
 })
 
-app.get('/callback', function(req, res) {
+app.get('/callback', function(req, res) { // callback from Spotify with token
   let code = req.query.code || null
   let authOptions = {
     url: 'https://accounts.spotify.com/api/token',
@@ -35,7 +35,7 @@ app.get('/callback', function(req, res) {
     },
     json: true
   }
-  request.post(authOptions, function(error, response, body) {
+  request.post(authOptions, function(error, response, body) { // redirect to client side with token
     var access_token = body.access_token
     let uri = process.env.FRONTEND_URI || 'http://localhost:3000/loggedin'
     res.redirect(uri + '?access_token=' + access_token)

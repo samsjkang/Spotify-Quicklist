@@ -51,7 +51,7 @@ class DesktopContainer extends Component {
           <Segment
             inverted
             textAlign='center'
-            style={{ minHeight: 700, padding: '1em 0em'}}
+            style={{ minHeight: 725, padding: '1em 0em'}}
             vertical
           >
             <LoggedInHeading/>
@@ -176,7 +176,7 @@ class LoggedIn extends Component {
       this.state.user &&
       this.state.playlists
         ? this.state.playlists.map(function(playlist){
-          return <Link to={`/playlist/?selected=${playlist.name}&access_token=${accessToken}`}>
+          return <Link to={`/playlist/?selected=${playlist.name}&access_token=${accessToken}`} key={`${playlist.name}`}>
             <Button style={{marginBottom:'1rem'}}>{playlist.name}</Button>
           </Link>;
       }) : []

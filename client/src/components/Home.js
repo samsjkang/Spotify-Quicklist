@@ -1,12 +1,10 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
 import {
   Button,
   Container,
   Grid,
   Header,
-  Icon,
   List,
   Menu,
   Responsive,
@@ -25,7 +23,7 @@ const getWidth = () => {
   return isSSR ? Responsive.onlyTablet.minWidth : window.innerWidth
 }
 
-const HomepageHeading = ({ mobile }) => (
+const HomepageHeading = ({ mobile }) => ( // Header
   <Container text>
     <Header
       as='h1'
@@ -55,7 +53,7 @@ HomepageHeading.propTypes = {
   mobile: PropTypes.bool,
 }
 
-class DesktopContainer extends Component {
+class DesktopContainer extends Component { // Desktop Layout
   state = {
     data: null
   };
@@ -77,7 +75,7 @@ class DesktopContainer extends Component {
           <Segment
             inverted
             textAlign='center'
-            style={{ minHeight: 700, padding: '1em 0em' , backgroundImage: `url(${Background1})`}}
+            style={{ minHeight: 725, padding: '1em 0em' , backgroundImage: `url(${Background1})`}}
             vertical
           >
             <Menu
@@ -109,16 +107,11 @@ DesktopContainer.propTypes = {
   children: PropTypes.node,
 }
 
-class MobileContainer extends Component {
+class MobileContainer extends Component { // Mobile Layout
   state = {}
-
-  handleSidebarHide = () => this.setState({ sidebarOpened: false })
-
-  handleToggle = () => this.setState({ sidebarOpened: true })
 
   render() {
     const { children } = this.props
-    const { sidebarOpened } = this.state
 
     return (
       <Responsive
@@ -126,43 +119,29 @@ class MobileContainer extends Component {
         getWidth={getWidth}
         maxWidth={Responsive.onlyMobile.maxWidth}
       >
-        <Sidebar
-          as={Menu}
-          animation='push'
+        <Segment
           inverted
-          onHide={this.handleSidebarHide}
+          textAlign='center'
+          style={{ minHeight: 350, padding: '1em 0em' , backgroundImage: `url(${Background1})`,
+          backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
+          }}
           vertical
-          visible={sidebarOpened}
         >
-          <Menu.Item as='a' active>
-            Home
-          </Menu.Item>
-        </Sidebar>
+          <Container>
+            <Menu inverted pointing secondary size='large'>
+              <Menu.Item onClick={this.handleToggle}>
+              </Menu.Item>
+              <Menu.Item position='right'>
+                <Button as='a' href='http://localhost:5000/login' inverted>
+                  Get Started 
+                </Button>
+              </Menu.Item>
+            </Menu>
+          </Container>
+          <HomepageHeading mobile />
+        </Segment>
 
-        <Sidebar.Pusher dimmed={sidebarOpened}>
-          <Segment
-            inverted
-            textAlign='center'
-            style={{ minHeight: 350, padding: '1em 0em' }}
-            vertical
-          >
-            <Container>
-              <Menu inverted pointing secondary size='large'>
-                <Menu.Item onClick={this.handleToggle}>
-                  <Icon name='sidebar' />
-                </Menu.Item>
-                <Menu.Item position='right'>
-                  <Button as='a' inverted>
-                    Log in
-                  </Button>
-                </Menu.Item>
-              </Menu>
-            </Container>
-            <HomepageHeading mobile />
-          </Segment>
-
-          {children}
-        </Sidebar.Pusher>
+        {children}
       </Responsive>
     )
   }
@@ -172,7 +151,7 @@ MobileContainer.propTypes = {
   children: PropTypes.node,
 }
 
-const ResponsiveContainer = ({ children }) => (
+const ResponsiveContainer = ({ children }) => ( // Responsive Layout
   <div>
     <DesktopContainer>{children}</DesktopContainer>
     <MobileContainer>{children}</MobileContainer>
@@ -183,7 +162,7 @@ ResponsiveContainer.propTypes = {
   children: PropTypes.node,
 }
 
-const Home = () => (
+const Home = () => ( // Main Homepage Component
   <ResponsiveContainer >
     <Segment style={{ backgroundImage: `url(${Background2})`, backgroundSize: 'cover',
       color: '#ffffff', padding: '14em 0em' }} vertical
