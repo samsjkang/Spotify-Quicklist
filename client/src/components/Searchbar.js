@@ -3,20 +3,7 @@ import Autosuggest from 'react-autosuggest';
 import './App.css';
 let querystring = require('querystring')
 
-const songs = [
-  {
-    name: 'CsdfsdfsdfasfsadfasdCsadasdasddsdsdadasdsdsdasdaasdfasdfsads',
-    year: 1972
-  },
-  {
-    name: 'C#',
-    year: 2000
-  },
-  {
-    name: 'C++',
-    year: 1983
-  }
-];
+var threeSongs = [];
 
 // https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions#Using_Special_Characters
 function escapeRegexCharacters(str) {
@@ -32,7 +19,7 @@ function getSuggestions(value) {
 
   const regex = new RegExp('^' + escapedValue, 'i');
 
-  return songs.filter(song => regex.test(song.name));
+  return threeSongs.filter(song => regex.test(song.name));
 }
 
 function getSuggestionValue(suggestion) {
@@ -41,7 +28,7 @@ function getSuggestionValue(suggestion) {
 
 function renderSuggestion(suggestion) {
   return (
-    <span>{suggestion.name}</span>
+    <span>{suggestion.name} by {suggestion.artist}</span>
   );
 }
 
@@ -75,15 +62,22 @@ class Searchbar extends React.Component {
       }).then(response => (response.json()))
       .then(data => (data.tracks))
       .then(songs => (songs.items))
-      .then(songArray => this.setState({
-        songs: songArray
-      }))
+      .then(songArray => {
+        if(songArray[0]) {
+          this.setState({
+            songs: songArray.map(item => {
+              return {
+                name: item.name,
+                artist: item.artists[0].name,
+                uri: item.uri
+              }
+            })
+          });
+          threeSongs = this.state.songs
+        }
+      })
       .then(console.log(this.state.songs))
-      .then(console.log(querystring.stringify({
-        q: newValue,
-        type: 'track',
-        limit: '3'
-      })))
+      .then(console.log(threeSongs))
     }
   };
   
