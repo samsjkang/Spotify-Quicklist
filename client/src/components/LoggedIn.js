@@ -190,7 +190,6 @@ class LoggedIn extends Component {
             <h1>{this.state.user.name}</h1>
             <p>Select the playlist you want to edit</p>
             {playlistRender}
-            {/* <Button style={{marginBottom:'1rem'}}>Create new playlist</Button> */}
           </Segment.Group>
         </Container> : <p>Loading</p>
         }

@@ -13,7 +13,6 @@ import {
   Visibility,
 } from 'semantic-ui-react'
 import Background1 from './pictures/spotify-background.png'
-import Background2 from './pictures/studio-background.png'
 
 import './App.css';
 
@@ -164,34 +163,6 @@ ResponsiveContainer.propTypes = {
 
 const Home = () => ( // Main Homepage Component
   <ResponsiveContainer >
-    <Segment style={{ backgroundImage: `url(${Background2})`, backgroundSize: 'cover',
-      color: '#ffffff', padding: '14em 0em' }} vertical
-    >
-      <Grid container stackable verticalAlign='middle'>
-        <Grid.Row>
-          <Grid.Column width={8} style={{paddingBottom: '4em'}}>
-            <Header as='h3' style={{ color: '#ffffff', fontSize: '2em' }}>
-              Search and Click
-            </Header>
-            <p style={{ color: '#ffffff', fontSize: '1.33em' }}>
-              Adding multiple songs to your playlist can get really tedious. 
-              With Spotify Quicklist, you can just search and click to add songs consecutively.
-            </p>
-          </Grid.Column>
-        </Grid.Row>
-        <Grid.Row>
-          <Grid.Column floated='right' width={8}>
-          <Header as='h3' style={{ color: '#ffffff', fontSize: '2em' }}>
-              Click and Delete
-            </Header>
-            <p style={{ fontSize: '1.33em' }}>
-              Easily remove multiple songs with the tap of your mouse.
-            </p>
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
-    </Segment>
-
     <Segment inverted vertical style={{ padding: '5em 0em' }}>
       <Container>
         <Grid divided inverted stackable>

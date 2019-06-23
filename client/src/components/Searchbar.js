@@ -1,25 +1,28 @@
 import React from 'react';
 import Autosuggest from 'react-autosuggest';
 import './App.css';
-let querystring = require('querystring')
+import Searchbar2 from './Searchbar2'
+import {
+  Button,
+  Form,
+  Segment,
+} from 'semantic-ui-react'
+let querystring = require('querystring');
 
-var threeSongs = [];
+var tenSongs = [];
 
-// https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions#Using_Special_Characters
 function escapeRegexCharacters(str) {
   return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
+/* ********************** Song Title ********************** */
 function getSuggestions(value) {
   const escapedValue = escapeRegexCharacters(value.trim());
   
   if (escapedValue === '') {
     return [];
   }
-
-  const regex = new RegExp('^' + escapedValue, 'i');
-
-  return threeSongs.filter(song => regex.test(song.name));
+  return tenSongs;
 }
 
 function getSuggestionValue(suggestion) {
@@ -31,12 +34,13 @@ function renderSuggestion(suggestion) {
     <span>{suggestion.name} by {suggestion.artist}</span>
   );
 }
+/* ******************************************************** */
 
 class Searchbar extends React.Component {
   constructor() {
     super();
     this.state = {
-      value: 'Drip Too Hard',
+      value: '',
       suggestions: []
     };    
   }
@@ -46,23 +50,17 @@ class Searchbar extends React.Component {
       value: newValue
     });
     if (newValue) {
-      console.log('https://api.spotify.com/v1/search?' + 
-      querystring.stringify({
-        q: newValue,
-        type: 'track',
-        limit: '3'
-      }))
       fetch('https://api.spotify.com/v1/search?' + 
       querystring.stringify({
         q: newValue,
         type: 'track',
-        limit: '3'
+        limit: '10'
       }) , {
         headers: {'Authorization': 'Bearer ' + this.props.access_token}
       }).then(response => (response.json()))
       .then(data => (data.tracks))
       .then(songs => (songs.items))
-      .then(songArray => {
+      .then(async songArray => {
         if(songArray[0]) {
           this.setState({
             songs: songArray.map(item => {
@@ -73,11 +71,11 @@ class Searchbar extends React.Component {
               }
             })
           });
-          threeSongs = this.state.songs
+          tenSongs = await this.state.songs
         }
       })
       .then(console.log(this.state.songs))
-      .then(console.log(threeSongs))
+      .then(console.log(tenSongs))
     }
   };
   
@@ -102,13 +100,30 @@ class Searchbar extends React.Component {
     };
 
     return (
-      <Autosuggest 
-        suggestions={suggestions}
-        onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-        onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-        getSuggestionValue={getSuggestionValue}
-        renderSuggestion={renderSuggestion}
-        inputProps={inputProps} />
+      <div>
+        <Form action='http://localhost:5000/add' method='post' size='large' >
+          <Autosuggest 
+            suggestions={suggestions}
+            onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+            onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+            getSuggestionValue={getSuggestionValue}
+            renderSuggestion={renderSuggestion}
+            inputProps={inputProps}>
+          </Autosuggest>
+          <Searchbar2 
+            artists={tenSongs.map(song => {
+              return {
+                artist: song.artist
+              }
+            })}
+          />
+          <Segment inverted stacked>
+            <Button type='submit' color='green' fluid size='large'>
+              Add Song
+            </Button>
+          </Segment>
+        </Form>
+      </div>
     );
   }
 }

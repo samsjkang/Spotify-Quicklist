@@ -5,7 +5,6 @@ import queryString from 'query-string';
 import {
   Button,
   Container,
-  Form,
   Header,
   Responsive,
   Segment,
@@ -196,14 +195,7 @@ class Playlist extends Component {
         {this.state.user && this.state.playlists ?
         <Container text>
           <Segment.Group style={{textAlign: 'center'}}>
-            <Form size='large'>
-              <Searchbar access_token={accessToken}/>
-              <Segment inverted stacked>
-                <Button color='green' fluid size='large'>
-                  Add Song
-                </Button>
-              </Segment>
-            </Form>
+            <Searchbar name='search' access_token={accessToken}/>
             <h1>{selectedPlaylist}</h1>
             <h1>id: {myPlaylist[0].id}</h1>
             {mySongs}
