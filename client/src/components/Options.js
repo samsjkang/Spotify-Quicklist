@@ -2,7 +2,7 @@ import React from 'react';
 import Autosuggest from 'react-autosuggest';
 import './App.css';
 
-var artists = []
+var options = []
 
 // https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions#Using_Special_Characters
 function escapeRegexCharacters(str) {
@@ -18,20 +18,20 @@ function getSuggestions(value) {
 
   const regex = new RegExp('^' + escapedValue, 'i');
 
-  return artists.filter(artist => regex.test(artist.artist));
+  return options.filter(option => regex.test(option.option));
 }
 
 function getSuggestionValue(suggestion) {
-  return suggestion.artist;
+  return suggestion.option;
 }
 
 function renderSuggestion(suggestion) {
   return (
-    <span>{suggestion.artist}</span>
+    <span>{suggestion.option}</span>
   );
 }
 
-class Searchbar2 extends React.Component {
+class Options extends React.Component {
   constructor() {
     super();
 
@@ -45,9 +45,9 @@ class Searchbar2 extends React.Component {
     this.setState({
       value: newValue
     });
-    if(this.props.artists) {
-      artists = this.props.artists
-      console.log(artists);
+    if(this.props.options) {
+      options = this.props.options
+      console.log(options);
     }
   };
   
@@ -66,7 +66,7 @@ class Searchbar2 extends React.Component {
   render() {
     const { value, suggestions } = this.state;
     const inputProps = {
-      placeholder: "Artist",
+      placeholder: "Option",
       value,
       onChange: this.onChange
     };
@@ -83,4 +83,4 @@ class Searchbar2 extends React.Component {
   }
 }
 
-export default Searchbar2
+export default Options

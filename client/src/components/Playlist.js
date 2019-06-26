@@ -10,7 +10,7 @@ import {
   Segment,
   Visibility,
 } from 'semantic-ui-react'
-import Searchbar from './Searchbar'
+import Forms from './Forms'
 import './App.css';
 
 const getWidth = () => {
@@ -195,7 +195,7 @@ class Playlist extends Component {
         {this.state.user && this.state.playlists ?
         <Container text>
           <Segment.Group style={{textAlign: 'center'}}>
-            <Searchbar name='search' access_token={accessToken}/>
+            <Forms access_token={accessToken}/>
             <h1>{selectedPlaylist}</h1>
             <h1>id: {myPlaylist[0].id}</h1>
             {mySongs}

@@ -1,7 +1,7 @@
 import React from 'react';
 import Autosuggest from 'react-autosuggest';
 import './App.css';
-import Searchbar2 from './Searchbar2'
+import SearchResults from './SearchResults'
 import {
   Button,
   Form,
@@ -34,17 +34,23 @@ function renderSuggestion(suggestion) {
     <span>{suggestion.name} by {suggestion.artist}</span>
   );
 }
+
+function shouldRenderSuggestions(value) {
+  return false;
+}
 /* ******************************************************** */
 
-class Searchbar extends React.Component {
+class Forms extends React.Component {
   constructor() {
     super();
     this.state = {
       value: '',
-      suggestions: []
+      suggestions: [],
+      childData: '' // contains info on song we want to add 
     };    
   }
 
+  // dynamic search fetch
   onChange = async (event, { newValue, method }) => {
     this.setState({
       value: newValue
@@ -60,7 +66,7 @@ class Searchbar extends React.Component {
       }).then(response => (response.json()))
       .then(data => (data.tracks))
       .then(songs => (songs.items))
-      .then(async songArray => {
+      .then(songArray => {
         if(songArray[0]) {
           this.setState({
             songs: songArray.map(item => {
@@ -71,11 +77,11 @@ class Searchbar extends React.Component {
               }
             })
           });
-          tenSongs = await this.state.songs
+          tenSongs = this.state.songs
         }
       })
-      .then(console.log(this.state.songs))
-      .then(console.log(tenSongs))
+      // .then(console.log(tenSongs))
+      // .then(console.log(this.state.childData))
     }
   };
   
@@ -91,6 +97,13 @@ class Searchbar extends React.Component {
     });
   };
 
+  // retrieve data (button clicked) from child component
+  getData = (data) => {
+    this.setState({
+      childData: data
+    });
+  }
+
   render() {
     const { value, suggestions } = this.state;
     const inputProps = {
@@ -98,26 +111,39 @@ class Searchbar extends React.Component {
       value,
       onChange: this.onChange
     };
+    let songQueue = 
+      this.state.childData
+        ? this.state.childData.name
+        : ''
 
     return (
       <div>
-        <Form action='http://localhost:5000/add' method='post' size='large' >
-          <Autosuggest 
-            suggestions={suggestions}
-            onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-            onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-            getSuggestionValue={getSuggestionValue}
-            renderSuggestion={renderSuggestion}
-            inputProps={inputProps}>
-          </Autosuggest>
-          <Searchbar2 
-            artists={tenSongs.map(song => {
-              return {
-                artist: song.artist
-              }
-            })}
-          />
+        <Form size='large'>
           <Segment inverted stacked>
+            <Autosuggest 
+              suggestions={suggestions}
+              onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+              onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+              getSuggestionValue={getSuggestionValue}
+              renderSuggestion={renderSuggestion}
+              inputProps={inputProps}
+              shouldRenderSuggestions={shouldRenderSuggestions}
+            />
+          </Segment>
+        </Form>
+        <SearchResults
+          sendData={this.getData}
+          songs={tenSongs.map(song => {
+            return {
+              name: song.name,
+              artist: song.artist,
+              uri: song.uri
+            }
+          })}
+        />
+        <Form size='large' >
+          <Segment inverted stacked>
+            <p>Song in add queue: {songQueue}</p>
             <Button type='submit' color='green' fluid size='large'>
               Add Song
             </Button>
@@ -128,4 +154,4 @@ class Searchbar extends React.Component {
   }
 }
 
-export default Searchbar
+export default Forms
