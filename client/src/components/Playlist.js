@@ -162,13 +162,11 @@ class Playlist extends Component {
       playlists: playlists.map(item => {
         return {
           name: item.name,
-          imageUrl: item.images[0].url, 
           songs: item.trackDatas,
           id: item.id
         }
     })
     }))
-
   }
 
   render() {
@@ -186,6 +184,7 @@ class Playlist extends Component {
       myPlaylist[0] &&
       myPlaylist[0].songs
         ? myPlaylist[0].songs.map(function(song){
+          (console.log(song))
           return <Button key={`${song.name}`} style={{marginBottom:'1rem'}}>{song.name}</Button>
       }) : []
 
@@ -195,9 +194,13 @@ class Playlist extends Component {
         {this.state.user && this.state.playlists ?
         <Container text>
           <Segment.Group style={{textAlign: 'center'}}>
-            <Forms access_token={accessToken}/>
+            <Forms access_token={accessToken} playlist_id={myPlaylist[0].id}/>
+            <p>
+              Note: Due to the Spotify API's upper limit of 100 for fetched tracks,
+              this application will only work for playlists with fewer than 100 tracks.
+            </p>
             <h1>{selectedPlaylist}</h1>
-            <h1>id: {myPlaylist[0].id}</h1>
+            {/* <p>Press songs you want to delete</p> */}
             {mySongs}
           </Segment.Group>
         </Container> : <p>Loading</p>

@@ -104,6 +104,19 @@ class Forms extends React.Component {
     });
   }
 
+  // add to playlist
+  playlistUpdate = async () => {
+    await fetch('https://api.spotify.com/v1/playlists/' + this.props.playlist_id + '/tracks?' +
+      querystring.stringify({
+        uris: this.state.childData.uri
+      }), { 
+        headers: {'Authorization': 'Bearer ' + this.props.access_token},
+        method: 'POST'
+      }
+    )
+    window.location.reload();
+  }
+
   render() {
     const { value, suggestions } = this.state;
     const inputProps = {
@@ -113,7 +126,7 @@ class Forms extends React.Component {
     };
     let songQueue = 
       this.state.childData
-        ? this.state.childData.name
+        ? this.state.childData.name + ' by ' + this.state.childData.artist
         : ''
 
     return (
@@ -144,7 +157,7 @@ class Forms extends React.Component {
         <Form size='large' >
           <Segment inverted stacked>
             <p>Song in add queue: {songQueue}</p>
-            <Button type='submit' color='green' fluid size='large'>
+            <Button onClick={this.playlistUpdate} type='submit' color='green' fluid size='large'>
               Add Song
             </Button>
           </Segment>
