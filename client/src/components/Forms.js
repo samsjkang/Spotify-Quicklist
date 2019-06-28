@@ -80,8 +80,6 @@ class Forms extends React.Component {
           tenSongs = this.state.songs
         }
       })
-      // .then(console.log(tenSongs))
-      // .then(console.log(this.state.childData))
     }
   };
   

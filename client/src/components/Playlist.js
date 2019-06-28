@@ -163,10 +163,56 @@ class Playlist extends Component {
         return {
           name: item.name,
           songs: item.trackDatas,
-          id: item.id
+          id: item.id,
         }
     })
     }))
+  }
+
+  delSong = async (song, playlist) => {
+    let parsed = queryString.parse(window.location.search);
+    let accessToken = parsed.access_token;
+
+    // fetches the uri and position of song we want to delete
+    await fetch('https://api.spotify.com/v1/playlists/' + playlist.id + '/tracks', {
+        headers: {'Authorization': 'Bearer ' + accessToken}
+      }
+    ).then(response => (response.json()))
+    .then(data => (data.items))
+    .then(itemArray => {
+      for(var i = 0; i < itemArray.length; i++) {
+        if(itemArray[i].track.name === song.name) {
+          song.position = i
+          return itemArray[i]
+        }
+      }
+    })
+    .then(itemInArray => (itemInArray.track.uri))
+    .then(uri => {
+      song.uri = uri
+    })
+
+    fetch('https://api.spotify.com/v1/playlists/' + playlist.id + '/tracks', { 
+        method: 'DELETE',
+        body: JSON.stringify({
+          "tracks": [
+            {
+              "uri": song.uri,
+              "positions": [
+                song.position
+              ]
+            }
+          ]
+        }),
+        headers: {
+          Authorization: 'Bearer ' + accessToken,
+          'Content-Type': 'application/json'
+        },
+      }
+    )
+    .then(console.log(song.uri))
+    .then(console.log(song.position))
+    window.location.reload();
   }
 
   render() {
@@ -183,10 +229,15 @@ class Playlist extends Component {
     let mySongs = 
       myPlaylist[0] &&
       myPlaylist[0].songs
-        ? myPlaylist[0].songs.map(function(song){
-          (console.log(song))
-          return <Button key={`${song.name}`} style={{marginBottom:'1rem'}}>{song.name}</Button>
+        ? myPlaylist[0].songs.map((song) => {
+          return <Button onClick={() => this.delSong(song, myPlaylist[0])} key={`${song.name}`} style={{marginBottom:'1rem'}}>{song.name}</Button>
       }) : []
+
+    let Songs = 
+    myPlaylist[0]
+      ? myPlaylist[0].songs.map((song) => {
+        return <Button onClick={() => this.delSong(song, myPlaylist[0])} key={`${song.name}`} style={{marginBottom:'1rem'}}>{song.name}</Button>
+    }) : []
 
     return (
       <ResponsiveContainer>
@@ -200,7 +251,7 @@ class Playlist extends Component {
               this application will only work for playlists with fewer than 100 tracks.
             </p>
             <h1>{selectedPlaylist}</h1>
-            {/* <p>Press songs you want to delete</p> */}
+            <p>Press songs you want to delete</p>
             {mySongs}
           </Segment.Group>
         </Container> : <p>Loading</p>
