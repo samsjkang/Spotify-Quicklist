@@ -18,7 +18,7 @@ const getWidth = () => {
   return isSSR ? Responsive.onlyTablet.minWidth : window.innerWidth
 }
 
-const LoggedInHeading = ({ mobile }) => (
+const LoggedInHeading = ({ mobile }) => ( // Header
   <Container text>
     <Header
       as='h1'
@@ -37,7 +37,7 @@ LoggedInHeading.propTypes = {
   mobile: PropTypes.bool,
 }
 
-class DesktopContainer extends Component {
+class DesktopContainer extends Component { // Desktop Layout
   state = {}
 
   render() {
@@ -67,7 +67,7 @@ DesktopContainer.propTypes = {
   children: PropTypes.node,
 }
 
-class MobileContainer extends Component {
+class MobileContainer extends Component { // Mobile Layout
   state = {}
 
   render() {
@@ -96,7 +96,7 @@ MobileContainer.propTypes = {
   children: PropTypes.node,
 }
 
-const ResponsiveContainer = ({ children }) => (
+const ResponsiveContainer = ({ children }) => ( // Responsive Layout
   <div>
     <DesktopContainer>{children}</DesktopContainer>
     <MobileContainer>{children}</MobileContainer>
@@ -107,7 +107,7 @@ ResponsiveContainer.propTypes = {
   children: PropTypes.node,
 }
 
-class LoggedIn extends Component {
+class LoggedIn extends Component { // Main Loggedin Page Component
   constructor() {
     super();
     this.state = {
@@ -120,7 +120,7 @@ class LoggedIn extends Component {
     let parsed = queryString.parse(window.location.search);
     let accessToken = parsed.access_token;
 
-    fetch('https://api.spotify.com/v1/me', {
+    fetch('https://api.spotify.com/v1/me', { // user info
       headers: {'Authorization': 'Bearer ' + accessToken}
     }).then(response => response.json())
     .then(data => this.setState({
@@ -129,7 +129,7 @@ class LoggedIn extends Component {
       }
     }))
 
-    fetch('https://api.spotify.com/v1/me/playlists', {
+    fetch('https://api.spotify.com/v1/me/playlists', { // retrieves playlists' data
       headers: {'Authorization': 'Bearer ' + accessToken}
     }).then(response => response.json())
     .then(playlistData => {
@@ -172,7 +172,8 @@ class LoggedIn extends Component {
   render() {
     let parsed = queryString.parse(window.location.search);
     let accessToken = parsed.access_token;
-    let playlistRender = 
+    // buttons for playlists
+    let playlistRender =
       this.state.user &&
       this.state.playlists
         ? this.state.playlists.map(function(playlist){

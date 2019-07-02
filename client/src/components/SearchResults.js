@@ -1,12 +1,8 @@
 import React from 'react';
 import './App.css';
-import { Button, Grid, Segment } from 'semantic-ui-react'
+import { Button } from 'semantic-ui-react'
 
-class SearchResults extends React.Component {
-  constructor() {
-    super();
-  }
-  
+class SearchResults extends React.Component { // component for search results
   addSong = (song) => {
     this.props.sendData(song)
   }

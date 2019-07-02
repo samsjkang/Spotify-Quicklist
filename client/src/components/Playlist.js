@@ -19,7 +19,7 @@ const getWidth = () => {
   return isSSR ? Responsive.onlyTablet.minWidth : window.innerWidth
 }
 
-const PlaylistHeading = ({ mobile }) => (
+const PlaylistHeading = ({ mobile }) => ( // Header
   <Container text>
     <Link to='/'><Button>Home</Button></Link>
     <Header
@@ -39,7 +39,7 @@ PlaylistHeading.propTypes = {
   mobile: PropTypes.bool,
 }
 
-class DesktopContainer extends Component {
+class DesktopContainer extends Component { // Desktop Layout
   state = {}
 
   render() {
@@ -70,7 +70,7 @@ DesktopContainer.propTypes = {
   children: PropTypes.node,
 }
 
-class MobileContainer extends Component {
+class MobileContainer extends Component { // Mobile Layout
   state = {}
 
   render() {
@@ -99,7 +99,7 @@ MobileContainer.propTypes = {
   children: PropTypes.node,
 }
 
-const ResponsiveContainer = ({ children }) => (
+const ResponsiveContainer = ({ children }) => ( // Responsive Layout
   <div>
     <DesktopContainer>{children}</DesktopContainer>
     <MobileContainer>{children}</MobileContainer>
@@ -110,7 +110,7 @@ ResponsiveContainer.propTypes = {
   children: PropTypes.node,
 }
 
-class Playlist extends Component {
+class Playlist extends Component { // Component for individual playlists
   constructor() {
     super();
     this.state = {
@@ -121,7 +121,7 @@ class Playlist extends Component {
     let parsed = queryString.parse(window.location.search);
     let accessToken = parsed.access_token;
 
-    fetch('https://api.spotify.com/v1/me', {
+    fetch('https://api.spotify.com/v1/me', { // user data
       headers: {'Authorization': 'Bearer ' + accessToken}
     }).then(response => response.json())
     .then(data => this.setState({
@@ -130,7 +130,7 @@ class Playlist extends Component {
       }
     }))
 
-    fetch('https://api.spotify.com/v1/me/playlists', {
+    fetch('https://api.spotify.com/v1/me/playlists', { // playlist data
       headers: {'Authorization': 'Bearer ' + accessToken}
     }).then(response => response.json())
     .then(playlistData => {
@@ -169,6 +169,7 @@ class Playlist extends Component {
     }))
   }
 
+  // function for buttons to delete songs
   delSong = async (song, playlist) => {
     let parsed = queryString.parse(window.location.search);
     let accessToken = parsed.access_token;
@@ -192,6 +193,7 @@ class Playlist extends Component {
       song.uri = uri
     })
 
+    // post method to delete songs
     fetch('https://api.spotify.com/v1/playlists/' + playlist.id + '/tracks', { 
         method: 'DELETE',
         body: JSON.stringify({
@@ -210,8 +212,6 @@ class Playlist extends Component {
         },
       }
     )
-    .then(console.log(song.uri))
-    .then(console.log(song.position))
     window.location.reload();
   }
 
@@ -219,6 +219,7 @@ class Playlist extends Component {
     let parsed = queryString.parse(window.location.search);
     let selectedPlaylist = parsed.selected;
     let accessToken = parsed.access_token;
+    // selected playlist
     let myPlaylist = 
       this.state.user &&
       this.state.playlists
@@ -226,18 +227,13 @@ class Playlist extends Component {
           return playlist.name === selectedPlaylist;
       }) : []
 
+    // songs in selected playlist
     let mySongs = 
       myPlaylist[0] &&
       myPlaylist[0].songs
         ? myPlaylist[0].songs.map((song) => {
           return <Button onClick={() => this.delSong(song, myPlaylist[0])} key={`${song.name}`} style={{marginBottom:'1rem'}}>{song.name}</Button>
       }) : []
-
-    let Songs = 
-    myPlaylist[0]
-      ? myPlaylist[0].songs.map((song) => {
-        return <Button onClick={() => this.delSong(song, myPlaylist[0])} key={`${song.name}`} style={{marginBottom:'1rem'}}>{song.name}</Button>
-    }) : []
 
     return (
       <ResponsiveContainer>
@@ -247,8 +243,9 @@ class Playlist extends Component {
           <Segment.Group style={{textAlign: 'center'}}>
             <Forms access_token={accessToken} playlist_id={myPlaylist[0].id}/>
             <p>
-              Note: Due to the Spotify API's upper limit of 100 for fetched tracks,
-              this application will only work for playlists with fewer than 100 tracks.
+              Note: Due to the Spotify API's upper limit of 100 fetched tracks, this application 
+              will only render the first 100 tracks if your playlist contains over 100 songs.
+              Adding and deleting songs is still possible.
             </p>
             <h1>{selectedPlaylist}</h1>
             <p>Press songs you want to delete</p>

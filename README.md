@@ -1,16 +1,17 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
 ## Spotify Quicklist
 
-A web app made to streamline the playlist editing.
+A web app made to streamline the playlist editing process.
 
-### Phase 1: Home Frontend (DONE)
+### Usage Instructions
 
-### Phase 2: Set up OAuth (DONE)
+#### To add songs: 
+1. Login using your Spotify credentials.
+2. Select the playlist that you want to edit (currently only works for public playlists you created).
+3. Search for songs in the search bar using key words, and watch the results dynamically render as you type.
+4. Select the song you want from the search results, and make sure the song is in the song queue.
+5. Then, click the add song button.
 
-### Phase 3: Client-Side Fetch API
-- Fetch user playlists using access_token query (DONE)
-- Fetch songs from each playlist (DONE)
-- Dynamically fetch songs from Spotify as user types in search bar (DONE*)
-
-*\*The dynamic search currently has a few bugs. Core functionality works but it sometimes fetches songs that do not contain the typed words (in which case, a dropdown list will not appear). To sure that the correct song is entered, user has to either click the right song from the dropdown list or enter the song title followed by " by {Artist Name}".*
+#### To delete songs:
+1. Login using your Spotify credentials
+2. Select the playlist that you want to edit (currently only works for public playlists you created).
+3. The bottom of the page will contain a list of songs in the playlist. Click the songs you would like to remove.
