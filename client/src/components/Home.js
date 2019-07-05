@@ -16,6 +16,12 @@ import Background1 from './pictures/spotify-background.png'
 
 import './App.css';
 
+require('dotenv').config()
+
+let login = 
+  process.env.REACT_APP_LOGIN ||
+  'http://localhost:5000/login'
+
 const getWidth = () => {
   const isSSR = typeof window === 'undefined'
 
@@ -86,7 +92,7 @@ class DesktopContainer extends Component { // Desktop Layout
             >
               <Container>
                 <Menu.Item position='right'>
-                  <Button as='a' href='http://localhost:5000/login' inverted={!fixed}>
+                  <Button as='a' href={login} inverted={!fixed}>
                       Get Started 
                   </Button>
                 </Menu.Item>
