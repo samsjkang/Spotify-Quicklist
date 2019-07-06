@@ -11,7 +11,7 @@ class SearchResults extends React.Component { // component for search results
     let optionsLength = this.props.songs.length
     let optionRender;
     if(optionsLength > 0) {
-      var count = 0;
+      let count = 0;
       optionRender = this.props.songs.map(song => {
         count++;
         return <Button onClick={() => this.addSong(song)} inverted key={song.uri} style={{marginBottom:'1rem'}}>

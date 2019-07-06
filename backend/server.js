@@ -37,12 +37,12 @@ app.get('/callback', function(req, res) { // callback from Spotify with token
     json: true
   }
   request.post(authOptions, function(error, response, body) { // redirect to client side with token
-    var access_token = body.access_token
+    let access_token = body.access_token
     let uri = process.env.FRONTEND_URI || 'http://localhost:3000/loggedin'
     res.redirect(uri + '?access_token=' + access_token)
   })
 })
 
 let port = process.env.PORT || 5000
-console.log(`Listening on port ${port}. Go /login to initiate authentication flow.`)
+console.log(`Listening on port ${port}.`)
 app.listen(port)

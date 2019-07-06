@@ -80,7 +80,7 @@ class DesktopContainer extends Component { // Desktop Layout
           <Segment
             inverted
             textAlign='center'
-            style={{ minHeight: 725, padding: '1em 0em' , backgroundImage: `url(${Background1})`}}
+            style={{ minHeight: 750, padding: '1em 0em' , backgroundImage: `url(${Background1})`}}
             vertical
           >
             <Menu
