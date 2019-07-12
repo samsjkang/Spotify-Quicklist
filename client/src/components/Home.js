@@ -12,7 +12,7 @@ import {
   Sidebar,
   Visibility,
 } from 'semantic-ui-react'
-import Background1 from './pictures/spotify-background.png'
+import Background1 from './pictures/background.png'
 
 import './App.css';
 
