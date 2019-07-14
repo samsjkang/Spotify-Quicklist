@@ -80,7 +80,8 @@ class DesktopContainer extends Component { // Desktop Layout
           <Segment
             inverted
             textAlign='center'
-            style={{ minHeight: 750, padding: '1em 0em' , backgroundImage: `url(${Background1})`}}
+            style={{ minHeight: 750, padding: '1em 0em' , backgroundImage: `url(${Background1})`, 
+            backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'}}
             vertical
           >
             <Menu
@@ -176,16 +177,18 @@ const Home = () => ( // Main Homepage Component
             <Grid.Column width={3}>
               <Header inverted as='h4' content='Check me out!' />
               <List link inverted>
-                <List.Item as='a'>Resume</List.Item>
-                <List.Item as='a'>Github</List.Item>
-                <List.Item as='a'>LinkedIn</List.Item>
-                <List.Item as='a'>Website</List.Item>
+                <List.Item as='a' href="https://github.com/samsjkang" 
+                target="_blank">Github</List.Item>
+                <List.Item as='a' href="https://linkedin.com/in/samuel-k-b9b834128/" 
+                target="_blank">LinkedIn</List.Item>
+                <List.Item as='a' href="https://samsjkang.com"
+                target="_blank">Website</List.Item>
               </List>
             </Grid.Column>
             <Grid.Column width={3}>
               <Header inverted as='h4' content='Contact Me' />
               <List link inverted>
-                <List.Item as='a'>E-mail</List.Item>
+                <List.Item as='a' href="mailto:samsjkang@gmail.com">E-mail</List.Item>
               </List>
             </Grid.Column>
             <Grid.Column width={7}>

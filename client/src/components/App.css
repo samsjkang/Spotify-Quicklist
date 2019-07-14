@@ -143,6 +143,10 @@ code:not(.hljs)::after {
   color: #ddd;
 }
 
+.pushable {
+  overflow-x: unset;
+}
+
 .react-autosuggest__container {
   position: relative;
 }
@@ -198,4 +202,8 @@ code:not(.hljs)::after {
 
 .react-autosuggest__suggestion--highlighted {
   background-color: #ddd;
+}
+
+.ui.secondary.inverted.pointing.menu {
+  border-width: 0;
 }
